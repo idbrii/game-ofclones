@@ -38,7 +38,7 @@ public abstract class Mob : MonoBehaviour
 	{
 		// The mob is grounded if a linecast to the groundcheck position hits
 		// anything on the ground layer.
-		grounded = Physics2D.Linecast(transform.position, groundCheck.position, 1 << LayerMask.NameToLayer("Ground"));  
+		grounded = IsGrounded();
 
 		// Start jumping when we should, but don't stop just because we can't
 		// start now.
@@ -46,6 +46,11 @@ public abstract class Mob : MonoBehaviour
         {
             jump = true;
         }
+	}
+
+	bool IsGrounded()
+	{
+		return Physics2D.Linecast(transform.position, groundCheck.position, 1 << LayerMask.NameToLayer("Ground"));  
 	}
 
 	void FixedUpdate()
@@ -72,41 +77,39 @@ public abstract class Mob : MonoBehaviour
 			rigidbody2D.velocity = new Vector2(Mathf.Sign(rigidbody2D.velocity.x) * maxSpeed, rigidbody2D.velocity.y);
 		}
 
-		// If the input is moving the mob right and the mob is facing left...
-		if(h > 0 && !facingRight)
+		// If the input is moving in a different direction that our current
+		// facing, then flip.
+		bool is_moving = h != 0;
+		bool has_changed_direction = h < 0 == facingRight;
+		if(is_moving && has_changed_direction)
 		{
-			// ... flip the mob.
-			Flip();
-		}
-		// Otherwise if the input is moving the mob left and the mob is facing
-		// right...
-		else if(h < 0 && facingRight)
-		{
-			// ... flip the mob.
-			Flip();
+			FlipMovementDirection();
 		}
 
-		// If the mob should jump...
 		if(jump)
 		{
-			// Set the Jump animator trigger parameter.
-			anim.SetTrigger("Jump");
-
-			// Play a random jump audio clip.
-			int i = Random.Range(0, jumpClips.Length);
-			AudioSource.PlayClipAtPoint(jumpClips[i], transform.position);
-
-			// Add a vertical force to the mob.
-			rigidbody2D.AddForce(new Vector2(0f, jumpForce));
-
-			// Make sure the mob can't jump again until the jump conditions
-			// from Update are satisfied.
-			jump = false;
+			HandleJump();
 		}
 	}
 	
+	void HandleJump()
+	{
+		// Set the Jump animator trigger parameter.
+		anim.SetTrigger("Jump");
+
+		// Play a random jump audio clip.
+		int i = Random.Range(0, jumpClips.Length);
+		AudioSource.PlayClipAtPoint(jumpClips[i], transform.position);
+
+		// Add a vertical force to the mob.
+		rigidbody2D.AddForce(new Vector2(0f, jumpForce));
+
+		// Make sure the mob can't jump again until the jump conditions
+		// from Update are satisfied.
+		jump = false;
+	}
 	
-	void Flip()
+	void FlipMovementDirection()
 	{
 		// Switch the way the mob is labelled as facing.
 		facingRight = !facingRight;
