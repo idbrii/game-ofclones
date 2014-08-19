@@ -1,0 +1,16 @@
+TODO
+
+* Create a base Mob class that is used by all moving objects.
+** Abstract from PlayerControl.
+** Abstract from Enemy.
+** Contains information about desired motion, jump state, and collision.
+* Create a PlayerSpoke class that follows the motion of the PlayerControl script.
+** Has reference to PlayerControl so it can copy its movements.
+
+* Start spawning PlayerSpokes
+** First pass: spawn them instead of enemies.
+   If they contact they player or each other, they die (excluding the player).
+** Second pass: kill the player on contact.
+   Needs to respawn player on death (does this already?)
+ 
+* Create buttons that activate spawner to create a clone.
