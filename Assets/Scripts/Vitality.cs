@@ -7,7 +7,6 @@ public abstract class Vitality : MonoBehaviour
 	public float repeatDamagePeriod = 2f;		// How frequently the player can be damaged.
 	public AudioClip[] ouchClips;				// Array of clips to play when the player is damaged.
 	public float hurtForce = 10f;				// The force with which the player is pushed when hurt.
-	public float damageAmount = 10f;			// The amount of damage to take when enemies touch the player
 
 	private float lastHitTime;					// The time at which the player was last hit.
 
@@ -21,53 +20,38 @@ public abstract class Vitality : MonoBehaviour
 		OnAwake();
 	}
 
-
-	void OnCollisionEnter2D(Collision2D col)
+	public bool IsReadyToTakeDamage()
 	{
-		// If the colliding gameobject is an Enemy...
-		if(col.gameObject.tag == "Enemy")
+		return Time.time > lastHitTime + repeatDamagePeriod;
+	}
+
+	public void Die(Transform killer)
+	{
+		// Find all of the colliders on the gameobject and set
+		// them all to be triggers.
+		Collider2D[] cols = GetComponents<Collider2D>();
+		foreach(Collider2D c in cols)
 		{
-			// ... and if the time exceeds the time of the last hit plus the
-			// time between hits...
-			if (Time.time > lastHitTime + repeatDamagePeriod) 
-			{
-				// ... and if the player still has health...
-				if(health > 0f)
-				{
-					// ... take damage and reset the lastHitTime.
-					TakeDamage(col.transform); 
-					lastHitTime = Time.time; 
-				}
-				// If the player doesn't have health, do some stuff, let him
-				// fall into the river to reload the level.
-				else
-				{
-					// Find all of the colliders on the gameobject and set
-					// them all to be triggers.
-					Collider2D[] cols = GetComponents<Collider2D>();
-					foreach(Collider2D c in cols)
-					{
-						c.isTrigger = true;
-					}
-
-					// Move all sprite parts of the player to the front
-					SpriteRenderer[] spr = GetComponentsInChildren<SpriteRenderer>();
-					foreach(SpriteRenderer s in spr)
-					{
-						s.sortingLayerName = "UI";
-					}
-
-					OnDeath();
-				}
-			}
+			c.isTrigger = true;
 		}
+
+		// Move all sprite parts of the player to the front
+		SpriteRenderer[] spr = GetComponentsInChildren<SpriteRenderer>();
+		foreach(SpriteRenderer s in spr)
+		{
+			s.sortingLayerName = "UI";
+		}
+
+		OnDeath();
 	}
 
 	protected abstract void OnDeath();
 	protected abstract void OnTakeDamage(Transform enemy);
 
-	void TakeDamage(Transform enemy)
+	public void TakeDamage(Transform enemy, float damageAmount)
 	{
+		lastHitTime = Time.time; 
+
 		OnTakeDamage(enemy);
 
 		// Create a vector that's from the enemy to the player with an upwards
