@@ -5,17 +5,34 @@ public class Attack : MonoBehaviour
 {	
 	public float damageAmount = 10f;			// The amount of damage to take when enemies touch the player
 
+	Vitality FindVitalityOnVictim(GameObject victim)
+	{
+		if (victim == gameObject)
+		{
+			// No self-damage.
+			return null;
+		}
+
+		Vitality v = victim.gameObject.GetComponent<Vitality>();
+		Vitality ours = gameObject.GetComponentInParent<Vitality>();
+		if (v == ours)
+		{
+			// No self-damage to parent hierarchy.
+			return null;
+		}
+		
+		return v;
+	}
+
 	void OnCollisionEnter2D(Collision2D victim)
 	{
-		Vitality v = victim.gameObject.GetComponent<Vitality>();
-		// If the collider has a Vitality component ...
+		Vitality v = FindVitalityOnVictim(victim.gameObject);
+
 		if(v)
 		{
-			// ... and if the time exceeds the time of the last hit plus the
-			// time between hits...
 			if (v.IsReadyToTakeDamage()) 
 			{
-				// ... and if the player still has health...
+				// Has health to reduce.
 				if(v.health > 0f)
 				{
 					v.TakeDamage(gameObject.transform, damageAmount); 
@@ -30,3 +47,4 @@ public class Attack : MonoBehaviour
 		}
 	}
 }
+
