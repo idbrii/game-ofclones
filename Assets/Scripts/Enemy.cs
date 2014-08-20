@@ -14,7 +14,7 @@ public class Enemy : MonoBehaviour
 
 
 	private SpriteRenderer ren;			// Reference to the sprite renderer.
-	private Transform frontCheck;		// Reference to the position of the gameobject used for checking if something is in front.
+	private Transform attack;			// Reference to the position of the gameobject used for attacks.
 	private bool dead = false;			// Whether or not the enemy is dead.
 	private Score score;				// Reference to the Score script.
 
@@ -23,17 +23,17 @@ public class Enemy : MonoBehaviour
 	{
 		// Setting up the references.
 		ren = transform.Find("body").GetComponent<SpriteRenderer>();
-		frontCheck = transform.Find("frontCheck").transform;
+		attack = transform.Find("frontCheck").transform;
 		score = GameObject.Find("Score").GetComponent<Score>();
 	}
 
 	void FixedUpdate ()
 	{
-		// Create an array of all the colliders in front of the enemy.
-		Collider2D[] frontHits = Physics2D.OverlapPointAll(frontCheck.position, 1);
+		// Create an array of the enemy's attack colliders.
+		Collider2D[] attackHits = Physics2D.OverlapPointAll(attack.position, 1);
 
 		// Check each of the colliders.
-		foreach(Collider2D c in frontHits)
+		foreach(Collider2D c in attackHits)
 		{
 			// If any of the colliders is an Obstacle...
 			if(c.tag == "Obstacle")
