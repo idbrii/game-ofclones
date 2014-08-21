@@ -23,7 +23,7 @@ public class Enemy : MonoBehaviour
 	{
 		// Setting up the references.
 		ren = transform.Find("body").GetComponent<SpriteRenderer>();
-		attack = transform.Find("frontCheck").transform;
+		attack = transform.Find("attackVolume").transform;
 		score = GameObject.Find("Score").GetComponent<Score>();
 	}
 
