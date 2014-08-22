@@ -3,16 +3,18 @@ using System.Collections;
 
 public abstract class Vitality : MonoBehaviour
 {
-    [Tooltip("The player's health.")]
-    public float health = 100f;
-    [Tooltip("How frequently the player can be damaged.")]
+    [Tooltip("The owner's starting health amount. Used to determine if we've taken damage.")]
+    public float initialHealth = 100f;
+    [HideInInspector]
+    public float health;
+    [Tooltip("How frequently the owner can be damaged.")]
     public float repeatDamagePeriod = 2f;
-    [Tooltip("Array of clips to play when the player is damaged.")]
+    [Tooltip("Array of clips to play when the owner is damaged.")]
     public AudioClip[] ouchClips;
-    [Tooltip("The force with which the player is pushed when hurt.")]
+    [Tooltip("The force with which the owner is pushed when hurt.")]
     public float hurtForce = 10f;
 
-    private float lastHitTime;					// The time at which the player was last hit.
+    private float lastHitTime;					// The time at which the owner was last hit.
 
 
     // Child classes can do their wakeup code here. Seems like unity does some
@@ -21,12 +23,19 @@ public abstract class Vitality : MonoBehaviour
 
     void Awake()
     {
+        health = initialHealth;
+
         OnAwake();
     }
 
     public bool IsReadyToTakeDamage()
     {
         return Time.time > lastHitTime + repeatDamagePeriod;
+    }
+
+    public bool IsDamaged()
+    {
+        return health < initialHealth;
     }
 
     public void Die(Transform killer)
@@ -39,7 +48,7 @@ public abstract class Vitality : MonoBehaviour
             c.isTrigger = true;
         }
 
-        // Move all sprite parts of the player to the front
+        // Move all sprite parts of the owner to the front
         SpriteRenderer[] spr = GetComponentsInChildren<SpriteRenderer>();
         foreach(SpriteRenderer s in spr)
         {
@@ -58,21 +67,21 @@ public abstract class Vitality : MonoBehaviour
 
         OnTakeDamage(enemy);
 
-        // Create a vector that's from the enemy to the player with an upwards
+        // Create a vector that's from the enemy to the owner with an upwards
         // boost.
         Vector3 hurtVector = transform.position - enemy.position + Vector3.up * 5f;
 
-        // Add a force to the player in the direction of the vector and
+        // Add a force to the owner in the direction of the vector and
         // multiply by the hurtForce.
         rigidbody2D.AddForce(hurtVector * hurtForce);
 
-        // Reduce the player's health by 10.
+        // Reduce the owner's health by 10.
         health -= damageAmount;
 
         // Update what the health bar looks like.
         UpdateHealthBar();
 
-        // Play a random clip of the player getting hurt.
+        // Play a random clip of the owner getting hurt.
         int i = Random.Range(0, ouchClips.Length);
         AudioSource.PlayClipAtPoint(ouchClips[i], transform.position);
     }
