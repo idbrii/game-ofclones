@@ -7,6 +7,8 @@ public abstract class Vitality : MonoBehaviour
     public float initialHealth = 100f;
     [HideInInspector]
     public float health;
+    [HideInInspector]
+    public bool isDead = false;
     [Tooltip("How frequently the owner can be damaged.")]
     public float repeatDamagePeriod = 2f;
     [Tooltip("Array of clips to play when the owner is damaged.")]
@@ -40,6 +42,13 @@ public abstract class Vitality : MonoBehaviour
 
     public void Die(Transform killer)
     {
+        if (isDead)
+        {
+            return;
+        }
+
+        isDead = true;
+
         // Find all of the colliders on the gameobject and set
         // them all to be triggers.
         Collider2D[] cols = GetComponents<Collider2D>();
@@ -60,6 +69,11 @@ public abstract class Vitality : MonoBehaviour
 
     protected abstract void OnDeath();
     protected abstract void OnTakeDamage(Transform enemy);
+
+    public void TakeLethalDamage(Transform enemy)
+    {
+        TakeDamage(enemy, health + 1f);
+    }
 
     public void TakeDamage(Transform enemy, float damageAmount)
     {
@@ -82,8 +96,11 @@ public abstract class Vitality : MonoBehaviour
         UpdateHealthBar();
 
         // Play a random clip of the owner getting hurt.
-        int i = Random.Range(0, ouchClips.Length);
-        AudioSource.PlayClipAtPoint(ouchClips[i], transform.position);
+        if (ouchClips.Length > 0)
+        {
+            int i = Random.Range(0, ouchClips.Length);
+            AudioSource.PlayClipAtPoint(ouchClips[i], transform.position);
+        }
     }
 
     public abstract void UpdateHealthBar();
