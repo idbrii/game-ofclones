@@ -33,17 +33,7 @@ public class Attack : MonoBehaviour
         {
             if (v.IsReadyToTakeDamage())
             {
-                // Has health to reduce.
-                if(v.health > 0f)
-                {
-                    v.TakeDamage(gameObject.transform, damageAmount);
-                }
-                // If the player doesn't have health, do some stuff, let him
-                // fall into the river to reload the level.
-                else
-                {
-                    v.Die(gameObject.transform);
-                }
+                v.TakeDamage(gameObject.transform, damageAmount);
             }
         }
     }

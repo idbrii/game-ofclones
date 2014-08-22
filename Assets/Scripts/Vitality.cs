@@ -40,14 +40,10 @@ public abstract class Vitality : MonoBehaviour
         return health < initialHealth;
     }
 
-    public void Die(Transform killer)
+    void Die(Transform killer)
     {
-        if (isDead)
-        {
-            return;
-        }
-
         isDead = true;
+        health = 0f;
 
         // Find all of the colliders on the gameobject and set
         // them all to be triggers.
@@ -72,10 +68,26 @@ public abstract class Vitality : MonoBehaviour
 
     public void TakeLethalDamage(Transform enemy)
     {
-        TakeDamage(enemy, health + 1f);
+        Die(enemy);
     }
 
     public void TakeDamage(Transform enemy, float damageAmount)
+    {
+        if (isDead)
+        {
+            // do nothing
+        }
+        else if (health < damageAmount)
+        {
+            Die(enemy);
+        }
+        else
+        {
+            HandleDamage(enemy, damageAmount);
+        }
+    }
+
+    void HandleDamage(Transform enemy, float damageAmount)
     {
         lastHitTime = Time.time;
 
