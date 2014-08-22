@@ -3,6 +3,8 @@ using System.Collections;
 
 public class Rocket : MonoBehaviour
 {
+    [Tooltip("The amount of damage to deal when rocket hits a target")]
+    public float damageAmount = 50f;
     [Tooltip("Prefab of explosion effect.")]
     public GameObject explosion;
 
@@ -28,8 +30,7 @@ public class Rocket : MonoBehaviour
         // If it hits an enemy...
         if(col.tag == "Enemy")
         {
-            // ... find the Enemy script and call the Hurt function.
-            col.gameObject.GetComponent<Enemy>().Hurt();
+            col.gameObject.GetComponent<Vitality>().TakeDamage(gameObject.transform, damageAmount);
 
             // Call the explosion instantiation.
             OnExplode();
