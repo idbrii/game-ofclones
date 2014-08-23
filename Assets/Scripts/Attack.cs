@@ -8,6 +8,13 @@ public class Attack : MonoBehaviour
     [Tooltip("Whether dealing damage causes self-destruction.")]
     public bool isKamikaze = false;
 
+    private Vitality ourVitality;
+
+    void Awake()
+    {
+        ourVitality = gameObject.GetComponentInParent<Vitality>();
+    }
+
     Vitality FindVitalityOnVictim(GameObject victim)
     {
         if (victim == gameObject)
@@ -17,8 +24,7 @@ public class Attack : MonoBehaviour
         }
 
         Vitality v = victim.gameObject.GetComponent<Vitality>();
-        Vitality ours = gameObject.GetComponentInParent<Vitality>();
-        if (v == ours)
+        if (v == ourVitality)
         {
             // No self-damage to parent hierarchy.
             return null;
@@ -49,7 +55,7 @@ public class Attack : MonoBehaviour
 
                 if (isKamikaze)
                 {
-                    gameObject.GetComponent<Vitality>().TakeLethalDamage(victim);
+                    ourVitality.TakeLethalDamage(victim);
                 }
             }
         }
