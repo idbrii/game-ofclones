@@ -14,7 +14,7 @@ public class Rocket : MonoBehaviour
     }
 
 
-    void OnExplode()
+    public void OnExplode()
     {
         // Create a quaternion with a random rotation in the z-axis.
         Quaternion randomRotation = Quaternion.Euler(0f, 0f, Random.Range(0f, 360f));
@@ -23,35 +23,17 @@ public class Rocket : MonoBehaviour
         Instantiate(explosion, transform.position, randomRotation);
     }
 
+    // TODO: Do this with Attack.
     void OnTriggerEnter2D(Collider2D col)
     {
-        // If it hits an enemy...
-        if(col.tag == "Enemy")
-        {
-            // Call the explosion instantiation.
-            OnExplode();
-
-            // Destroy the rocket.
-            Destroy(gameObject);
-        }
         // Otherwise if it hits a bomb crate...
-        else if(col.tag == "BombPickup")
+        if(col.tag == "BombPickup")
         {
             // ... find the Bomb script and call the Explode function.
             col.gameObject.GetComponent<Bomb>().Explode();
 
             // Destroy the bomb crate.
             Destroy(col.transform.root.gameObject);
-
-            // Destroy the rocket.
-            Destroy(gameObject);
-        }
-        // Otherwise if the player manages to shoot himself...
-        else if(col.gameObject.tag != "Player")
-        {
-            // Instantiate the explosion and destroy the rocket.
-            OnExplode();
-            Destroy(gameObject);
         }
     }
 }

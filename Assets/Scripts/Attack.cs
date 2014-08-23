@@ -5,6 +5,8 @@ public class Attack : MonoBehaviour
 {
     [Tooltip("The amount of damage to deal when hitting an object")]
     public float damageAmount = 10f;
+    [Tooltip("Whether dealing damage causes self-destruction.")]
+    public bool isKamikaze = false;
 
     Vitality FindVitalityOnVictim(GameObject victim)
     {
@@ -44,6 +46,11 @@ public class Attack : MonoBehaviour
             if (v.IsReadyToTakeDamage())
             {
                 v.TakeDamage(gameObject.transform, damageAmount);
+
+                if (isKamikaze)
+                {
+                    gameObject.GetComponent<Vitality>().TakeLethalDamage(victim.transform);
+                }
             }
         }
     }
