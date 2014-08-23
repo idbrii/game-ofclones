@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public abstract class Vitality : MonoBehaviour
+public class Vitality : MonoBehaviour
 {
     [Tooltip("The owner's starting health amount. Used to determine if we've taken damage.")]
     public float initialHealth = 100f;
@@ -17,6 +17,8 @@ public abstract class Vitality : MonoBehaviour
     public float hurtForce = 10f;
 
     private float lastHitTime;					// The time at which the owner was last hit.
+    private OnTakeDamageHandler DamageHandler;
+    private OnDeathHandler DeathHandler;
 
 
     // Child classes can do their wakeup code here. Seems like unity does some
@@ -30,6 +32,16 @@ public abstract class Vitality : MonoBehaviour
         health = initialHealth;
 
         OnAwake();
+
+        if (DamageHandler == null)
+        {
+            DamageHandler = OnTakeDamage;
+        }
+
+        if (DeathHandler == null)
+        {
+            DeathHandler = OnDeath;
+        }
     }
 
     public bool IsReadyToTakeDamage()
@@ -62,11 +74,24 @@ public abstract class Vitality : MonoBehaviour
             s.sortingLayerName = "UI";
         }
 
-        OnDeath();
+        DeathHandler();
     }
 
-    protected abstract void OnDeath();
-    protected abstract void OnTakeDamage(GameObject enemy);
+    public delegate void OnTakeDamageHandler(GameObject enemy);
+    public delegate void OnDeathHandler();
+
+    protected virtual void OnDeath()
+    {
+    }
+    protected virtual void OnTakeDamage(GameObject enemy)
+    {
+    }
+
+    public void Register(OnTakeDamageHandler damage, OnDeathHandler death)
+    {
+        DamageHandler = damage;
+        DeathHandler = death;
+    }
 
     public void TakeLethalDamage(GameObject enemy)
     {
@@ -93,7 +118,7 @@ public abstract class Vitality : MonoBehaviour
     {
         lastHitTime = Time.time;
 
-        OnTakeDamage(enemy);
+        DamageHandler(enemy);
 
         // Create a vector that's from the enemy to the owner with an upwards
         // boost.

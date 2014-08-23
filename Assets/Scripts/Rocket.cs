@@ -13,6 +13,23 @@ public class Rocket : MonoBehaviour
         Destroy(gameObject, 2);
     }
 
+    void Awake()
+    {
+        GetComponent<Vitality>().Register(OnTakeDamage, OnDeath);
+    }
+
+    private void OnTakeDamage(GameObject enemy)
+    {
+        // Rockets shouldn't take damage.
+    }
+
+    // TODO: Doesn't prevent player from shooting herself.
+    private void OnDeath()
+    {
+        // Instantiate the explosion and destroy the rocket.
+        OnExplode();
+        Destroy(gameObject);
+    }
 
     public void OnExplode()
     {
