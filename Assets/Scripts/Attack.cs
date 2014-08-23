@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Attack : MonoBehaviour
 {
-    [Tooltip("The amount of damage to take when enemies touch the player")]
+    [Tooltip("The amount of damage to deal when hitting an object")]
     public float damageAmount = 10f;
 
     Vitality FindVitalityOnVictim(GameObject victim)
@@ -25,9 +25,19 @@ public class Attack : MonoBehaviour
         return v;
     }
 
+    void OnTriggerEnter2D(Collider2D victim)
+    {
+        OnHitVictim(victim.gameObject);
+    }
+
     void OnCollisionEnter2D(Collision2D victim)
     {
-        Vitality v = FindVitalityOnVictim(victim.gameObject);
+        OnHitVictim(victim.gameObject);
+    }
+
+    private void OnHitVictim(GameObject victim)
+    {
+        Vitality v = FindVitalityOnVictim(victim);
 
         if(v)
         {
