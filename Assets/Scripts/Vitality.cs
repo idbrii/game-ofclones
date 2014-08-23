@@ -21,7 +21,9 @@ public abstract class Vitality : MonoBehaviour
 
     // Child classes can do their wakeup code here. Seems like unity does some
     // reflection magic to avoid "override" and "interfaces".
-    protected abstract void OnAwake();
+    protected virtual void OnAwake()
+    {
+    }
 
     void Awake()
     {

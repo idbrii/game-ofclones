@@ -3,10 +3,6 @@ using System.Collections;
 
 public class RocketHealth : Vitality
 {
-    protected override void OnAwake()
-    {
-    }
-
     protected override void OnTakeDamage(GameObject enemy)
     {
         // Rockets shouldn't take damage.
