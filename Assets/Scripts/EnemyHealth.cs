@@ -77,9 +77,4 @@ public class EnemyHealth : Vitality
         // Instantiate the 100 points prefab at this point.
         Instantiate(hundredPointsUI, scorePos, Quaternion.identity);
     }
-
-    public override void UpdateHealthBar()
-    {
-        // Nothing. Enemy has no health bar.
-    }
 }

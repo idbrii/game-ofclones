@@ -115,5 +115,8 @@ public abstract class Vitality : MonoBehaviour
         }
     }
 
-    public abstract void UpdateHealthBar();
+    public virtual void UpdateHealthBar()
+    {
+        // Default do nothing for objects with no health bar.
+    }
 }
