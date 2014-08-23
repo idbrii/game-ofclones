@@ -7,7 +7,7 @@ public class RocketHealth : Vitality
     {
     }
 
-    protected override void OnTakeDamage(Transform enemy)
+    protected override void OnTakeDamage(GameObject enemy)
     {
         // Rockets shouldn't take damage.
     }

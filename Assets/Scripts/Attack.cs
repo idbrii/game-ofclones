@@ -45,11 +45,11 @@ public class Attack : MonoBehaviour
         {
             if (v.IsReadyToTakeDamage())
             {
-                v.TakeDamage(gameObject.transform, damageAmount);
+                v.TakeDamage(gameObject, damageAmount);
 
                 if (isKamikaze)
                 {
-                    gameObject.GetComponent<Vitality>().TakeLethalDamage(victim.transform);
+                    gameObject.GetComponent<Vitality>().TakeLethalDamage(victim);
                 }
             }
         }

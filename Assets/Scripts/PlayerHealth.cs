@@ -34,7 +34,7 @@ public class PlayerHealth : Vitality
         anim.SetTrigger("Die");
     }
 
-    protected override void OnTakeDamage(Transform enemy)
+    protected override void OnTakeDamage(GameObject enemy)
     {
         // Make sure the player can't jump.
         playerControl.jump = false;

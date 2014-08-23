@@ -40,7 +40,7 @@ public abstract class Vitality : MonoBehaviour
         return health < initialHealth;
     }
 
-    void Die(Transform killer)
+    void Die(GameObject killer)
     {
         isDead = true;
         health = 0f;
@@ -64,14 +64,14 @@ public abstract class Vitality : MonoBehaviour
     }
 
     protected abstract void OnDeath();
-    protected abstract void OnTakeDamage(Transform enemy);
+    protected abstract void OnTakeDamage(GameObject enemy);
 
-    public void TakeLethalDamage(Transform enemy)
+    public void TakeLethalDamage(GameObject enemy)
     {
         Die(enemy);
     }
 
-    public void TakeDamage(Transform enemy, float damageAmount)
+    public void TakeDamage(GameObject enemy, float damageAmount)
     {
         if (isDead)
         {
@@ -87,7 +87,7 @@ public abstract class Vitality : MonoBehaviour
         }
     }
 
-    void HandleDamage(Transform enemy, float damageAmount)
+    void HandleDamage(GameObject enemy, float damageAmount)
     {
         lastHitTime = Time.time;
 
@@ -95,7 +95,7 @@ public abstract class Vitality : MonoBehaviour
 
         // Create a vector that's from the enemy to the owner with an upwards
         // boost.
-        Vector3 hurtVector = transform.position - enemy.position + Vector3.up * 5f;
+        Vector3 hurtVector = transform.position - enemy.transform.position + Vector3.up * 5f;
 
         // Add a force to the owner in the direction of the vector and
         // multiply by the hurtForce.

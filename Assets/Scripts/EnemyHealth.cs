@@ -26,7 +26,7 @@ public class EnemyHealth : Vitality
         score = GameObject.Find("Score").GetComponent<Score>();
     }
 
-    protected override void OnTakeDamage(Transform enemy)
+    protected override void OnTakeDamage(GameObject enemy)
     {
         // If the enemy has a damagedEnemy sprite...
         if(damagedEnemy != null)
