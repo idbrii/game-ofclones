@@ -3,6 +3,10 @@ using System.Collections;
 
 public class PlayerControl : Mob
 {
+    // The desired movement of the player.
+    [HideInInspector]
+    public float walkMovement = 0f;
+
     protected override bool ShouldJump()
     {
         // If the jump button is pressed and the player is grounded then the
@@ -12,7 +16,13 @@ public class PlayerControl : Mob
 
     protected override float GetDesiredHorizontalMovement()
     {
-        return Input.GetAxis("Horizontal");
+        walkMovement = Input.GetAxis("Horizontal");
+        return walkMovement;
+    }
+
+    public float GetWalkMovement()
+    {
+        return walkMovement;
     }
 }
 

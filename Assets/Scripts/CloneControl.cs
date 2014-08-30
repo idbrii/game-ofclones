@@ -16,11 +16,11 @@ public class CloneControl : Mob {
 
 	protected override bool ShouldJump()
 	{
-		return input.jump;
+		return input.jump && grounded;
 	}
 
 	protected override float GetDesiredHorizontalMovement()
 	{
-		return player.rigidbody2D.velocity.x;
+		return input.GetWalkMovement();
 	}
 }

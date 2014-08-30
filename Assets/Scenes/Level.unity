@@ -8692,6 +8692,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: ddd0ca15e5d0a42b98f08337c1690bb1, type: 3}
   tauntProbability: 50
   tauntDelay: 1
+  walkMovement: 0
 --- !u!114 &2086931167
 MonoBehaviour:
   m_ObjectHideFlags: 0
