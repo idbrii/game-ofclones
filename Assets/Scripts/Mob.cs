@@ -30,7 +30,7 @@ public abstract class Mob : MonoBehaviour
     private Animator anim;					// Reference to the mob's animator component.
 
 
-    void Awake()
+    public virtual void Awake()
     {
         // Setting up references.
         groundCheck = transform.Find("groundCheck");
