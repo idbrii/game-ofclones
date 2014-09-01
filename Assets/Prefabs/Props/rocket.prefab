@@ -13,6 +13,7 @@ GameObject:
   - 114: {fileID: 11400000}
   - 114: {fileID: 11400002}
   - 114: {fileID: 11400008}
+  - 114: {fileID: 11400006}
   m_Layer: 0
   m_Name: rocket
   m_TagString: Bullet
@@ -174,7 +175,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4383004accee7494fba3cf64d65513c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  explosion: {fileID: 100000, guid: 42404bf7d14c342f69690c9961a7530d, type: 2}
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -189,6 +189,8 @@ MonoBehaviour:
   damageAmount: 51
   isKamikaze: 1
   ignoreList: []
+  ignoreOriginator: 1
+  originator: {fileID: 0}
 --- !u!114 &11400004
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -201,6 +203,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sortingLayerName: Foreground
+--- !u!114 &11400006
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82281ef91511a254bbceb7d2550cf266, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bombRadius: 0
+  bombForce: 100
+  boom: {fileID: 0}
+  explosion: {fileID: 100000, guid: 42404bf7d14c342f69690c9961a7530d, type: 2}
+  randomizeRotation: 1
 --- !u!114 &11400008
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Explosive : MonoBehaviour
 {
-    [Tooltip("Radius within which enemies are killed.")]
+    [Tooltip("Radius within which enemies are killed. If zero, there is no bomb blast.")]
     public float bombRadius = 10f;
     [Tooltip("Force that enemies are thrown from the blast.")]
     public float bombForce = 100f;
@@ -11,6 +11,8 @@ public class Explosive : MonoBehaviour
     public AudioClip boom;
     [Tooltip("Prefab of explosion effect.")]
     public GameObject explosion;
+    [Tooltip("Randomize the rotation of the explosion effect.")]
+    public bool randomizeRotation = false;
 
 
     private ParticleSystem explosionFX;		// Reference to the particle system of the explosion effect.
@@ -44,6 +46,32 @@ public class Explosive : MonoBehaviour
     {
         ExplodeHandler();
 
+        if (bombRadius > 0f)
+        {
+            ApplyBombBlast();
+        }
+
+        Quaternion rotation = Quaternion.identity;
+        if (randomizeRotation)
+        {
+            rotation = Quaternion.Euler(0f, 0f, Random.Range(0f, 360f));
+        }
+
+        // Instantiate the explosion prefab.
+        Instantiate(explosion, transform.position, rotation);
+
+        if (boom != null)
+        {
+            // Play the explosion sound effect.
+            AudioSource.PlayClipAtPoint(boom, transform.position);
+        }
+
+        // Destroy the bomb.
+        Destroy(gameObject);
+    }
+
+    private void ApplyBombBlast()
+    {
         // Find all the colliders on the Enemies layer within the bombRadius.
         Collider2D[] enemies = Physics2D.OverlapCircleAll(transform.position, bombRadius, 1 << LayerMask.NameToLayer("Enemies"));
 
@@ -69,15 +97,6 @@ public class Explosive : MonoBehaviour
         // Set the explosion effect's position to the bomb's position and play the particle system.
         explosionFX.transform.position = transform.position;
         explosionFX.Play();
-
-        // Instantiate the explosion prefab.
-        Instantiate(explosion,transform.position, Quaternion.identity);
-
-        // Play the explosion sound effect.
-        AudioSource.PlayClipAtPoint(boom, transform.position);
-
-        // Destroy the bomb.
-        Destroy(gameObject);
     }
 
     public void OnDeath()
