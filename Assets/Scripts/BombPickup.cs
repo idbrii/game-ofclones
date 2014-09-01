@@ -20,14 +20,15 @@ public class BombPickup : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        // If the player enters the trigger zone...
-        if(other.tag == "Player")
+        LayBombs bomb_satchel = other.GetComponent<LayBombs>();
+        // If a bomb carrier enters the trigger zone...
+        if (bomb_satchel != null)
         {
             // ... play the pickup sound effect.
             AudioSource.PlayClipAtPoint(pickupClip, transform.position);
 
-            // Increase the number of bombs the player has.
-            other.GetComponent<LayBombs>().bombCount++;
+            // Increase their number of bombs.
+            ++bomb_satchel.bombCount;
 
             // Destroy the crate.
             Destroy(transform.root.gameObject);
