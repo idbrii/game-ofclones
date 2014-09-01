@@ -45,8 +45,12 @@ public class Gun : MonoBehaviour
                 velocity = -speed;
                 z_orientation = 180f;
             }
+
             Rigidbody2D bulletInstance = Instantiate(rocket, transform.position, Quaternion.Euler(new Vector3(0,0,z_orientation))) as Rigidbody2D;
             bulletInstance.velocity = new Vector2(velocity, 0);
+
+            Attack attack = bulletInstance.GetComponent<Attack>();
+            attack.originator = transform.root.gameObject;
         }
     }
 }

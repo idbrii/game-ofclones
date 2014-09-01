@@ -10,6 +10,10 @@ public class Attack : MonoBehaviour
     public bool isKamikaze = false;
 	[Tooltip("Deals no damage to objects with these tags")]
 	public string[] ignoreList;
+	[Tooltip("Deals no damage to object that originated attack")]
+	public bool ignoreOriginator = true;
+	[HideInInspector]
+	public GameObject originator; // who caused this attack (never ourself)
 
     private Vitality ourVitality;
 
@@ -20,7 +24,12 @@ public class Attack : MonoBehaviour
 
 	bool IsIgnored(GameObject victim)
 	{
-		string first = Array.Find(ignoreList, x => victim.CompareTag(x) );
+		if (ignoreOriginator && victim == originator)
+		{
+			return true;
+		}
+
+		string first = Array.Find(ignoreList, x => victim.CompareTag(x));
 		return !string.IsNullOrEmpty(first);
 	}
 
