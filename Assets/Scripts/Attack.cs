@@ -1,12 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class Attack : MonoBehaviour
 {
     [Tooltip("The amount of damage to deal when hitting an object")]
     public float damageAmount = 10f;
-    [Tooltip("Whether dealing damage causes self-destruction.")]
+    [Tooltip("Whether dealing damage causes self-destruction")]
     public bool isKamikaze = false;
+	[Tooltip("Deals no damage to objects with these tags")]
+	public string[] ignoreList;
 
     private Vitality ourVitality;
 
@@ -15,11 +18,17 @@ public class Attack : MonoBehaviour
         ourVitality = gameObject.GetComponentInParent<Vitality>();
     }
 
+	bool IsIgnored(GameObject victim)
+	{
+		string first = Array.Find(ignoreList, x => victim.CompareTag(x) );
+		return !string.IsNullOrEmpty(first);
+	}
+
     Vitality FindVitalityOnVictim(GameObject victim)
     {
-        if (victim == gameObject)
+        if (victim == gameObject || IsIgnored(victim))
         {
-            // No self-damage.
+            // No self-damage or ignored damage.
             return null;
         }
 

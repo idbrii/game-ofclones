@@ -188,6 +188,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damageAmount: 51
   isKamikaze: 1
+  ignoreList: []
 --- !u!114 &11400004
 MonoBehaviour:
   m_ObjectHideFlags: 1

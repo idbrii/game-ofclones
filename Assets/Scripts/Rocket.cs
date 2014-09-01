@@ -23,7 +23,6 @@ public class Rocket : MonoBehaviour
         // Rockets shouldn't take damage.
     }
 
-    // TODO: Doesn't prevent player from shooting herself.
     private void OnDeath()
     {
         // Instantiate the explosion and destroy the rocket.
