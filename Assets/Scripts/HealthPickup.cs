@@ -22,7 +22,7 @@ public class HealthPickup : MonoBehaviour
     void OnTriggerEnter2D(Collider2D other)
     {
         // If the player enters the trigger zone...
-        if(other.tag == "Player")
+        if(other.CompareTag("Player"))
         {
             // Get a reference to the player health script.
             Vitality playerHealth = other.GetComponent<Vitality>();

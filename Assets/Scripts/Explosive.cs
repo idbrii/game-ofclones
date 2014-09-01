@@ -80,7 +80,7 @@ public class Explosive : MonoBehaviour
         {
             // Check if it has a rigidbody (since there is only one per enemy, on the parent).
             Rigidbody2D rb = en.rigidbody2D;
-            if(rb != null && rb.tag == "Enemy")
+            if(rb != null && rb.CompareTag("Enemy"))
             {
                 // Find the Enemy script and set the enemy's health to zero.
                 rb.gameObject.GetComponent<Vitality>().TakeLethalDamage(gameObject);

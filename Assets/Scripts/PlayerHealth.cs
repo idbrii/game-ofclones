@@ -19,7 +19,6 @@ public class PlayerHealth : Vitality
         // Getting the intial scale of the healthbar (whilst the player has
         // full health).
         healthScale = healthBar.transform.localScale;
-
     }
 
 

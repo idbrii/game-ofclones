@@ -28,7 +28,9 @@ public class Bomb : MonoBehaviour
     {
         // If the bomb has no parent, it has been laid by the player and should detonate.
         if(transform.root == transform)
+        {
             StartCoroutine(BombDetonation());
+        }
     }
 
 
