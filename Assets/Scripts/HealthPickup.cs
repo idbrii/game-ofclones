@@ -28,7 +28,7 @@ public class HealthPickup : MonoBehaviour
         if(other.tag == "Player")
         {
             // Get a reference to the player health script.
-            PlayerHealth playerHealth = other.GetComponent<PlayerHealth>();
+            Vitality playerHealth = other.GetComponent<Vitality>();
 
             // Increasse the player's health by the health bonus but clamp it at 100.
             playerHealth.health += healthBonus;
