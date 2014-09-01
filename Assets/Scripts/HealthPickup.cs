@@ -10,15 +10,12 @@ public class HealthPickup : MonoBehaviour
 
 
     private PickupSpawner pickupSpawner;	// Reference to the pickup spawner.
-    private Animator anim;					// Reference to the animator component.
-    private bool landed;					// Whether or not the crate has landed.
 
 
     void Awake()
     {
         // Setting up the references.
         pickupSpawner = GameObject.Find("pickupManager").GetComponent<PickupSpawner>();
-        anim = transform.root.GetComponent<Animator>();
     }
 
 
@@ -45,16 +42,6 @@ public class HealthPickup : MonoBehaviour
 
             // Destroy the crate.
             Destroy(transform.root.gameObject);
-        }
-        // Otherwise if the crate hits the ground...
-        else if(other.tag == "ground" && !landed)
-        {
-            // ... set the Land animator trigger parameter.
-            anim.SetTrigger("Land");
-
-            transform.parent = null;
-            gameObject.AddComponent<Rigidbody2D>();
-            landed = true;
         }
     }
 }
