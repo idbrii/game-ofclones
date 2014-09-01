@@ -38,18 +38,4 @@ public class Rocket : MonoBehaviour
         // Instantiate the explosion where the rocket is with the random rotation.
         Instantiate(explosion, transform.position, randomRotation);
     }
-
-    // TODO: Do this with Attack.
-    void OnTriggerEnter2D(Collider2D col)
-    {
-        // Otherwise if it hits a bomb crate...
-        if(col.tag == "BombPickup")
-        {
-            // ... find the Bomb script and call the Explode function.
-            col.gameObject.GetComponent<Bomb>().Explode();
-
-            // Destroy the bomb crate.
-            Destroy(col.transform.root.gameObject);
-        }
-    }
 }

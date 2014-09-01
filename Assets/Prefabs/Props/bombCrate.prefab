@@ -31,6 +31,7 @@ GameObject:
   - 114: {fileID: 11400002}
   - 114: {fileID: 11400004}
   - 114: {fileID: 11400000}
+  - 114: {fileID: 11400006}
   m_Layer: 11
   m_Name: crate
   m_TagString: BombPickup
@@ -155,8 +156,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: adfa9463508825b4399970b724344fec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  landed: 0
-  anim: {fileID: 0}
+  onGroundAnimTrigger: Land
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -180,11 +180,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d060b6f2711747368c4bc5aae24049b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fuse: {fileID: 8300000, guid: 238da4efc08184aee919af254edb2ef1, type: 3}
+  fuseTime: 1.5
+--- !u!114 &11400006
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100002}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82281ef91511a254bbceb7d2550cf266, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   bombRadius: 7
   bombForce: 100
   boom: {fileID: 8300000, guid: 8b4e61c51941a46d1aac273472c814fd, type: 3}
-  fuse: {fileID: 8300000, guid: 238da4efc08184aee919af254edb2ef1, type: 3}
-  fuseTime: 1.5
   explosion: {fileID: 100000, guid: 9c8b546f746e74328ab6b8bba733af67, type: 2}
 --- !u!212 &21200000
 SpriteRenderer:
