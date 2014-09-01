@@ -20,21 +20,15 @@ public class Remover : MonoBehaviour
                 GameObject.FindGameObjectWithTag("HealthBar").SetActive(false);
             }
 
-            // ... instantiate the splash where the player falls in.
-            Instantiate(splash, col.transform.position, transform.rotation);
-            // ... destroy the player.
-            Destroy(col.gameObject);
             // ... reload the level.
             StartCoroutine("ReloadGame");
         }
-        else
-        {
-            // ... instantiate the splash where the enemy falls in.
-            Instantiate(splash, col.transform.position, transform.rotation);
 
-            // Destroy the enemy.
-            Destroy(col.gameObject);
-        }
+        // ... instantiate the splash where the object falls in.
+        Instantiate(splash, col.transform.position, transform.rotation);
+
+        // Destroy the enemy.
+        Destroy(col.gameObject);
     }
 
     IEnumerator ReloadGame()
