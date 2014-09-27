@@ -40,7 +40,7 @@ public abstract class Mob : MonoBehaviour
     protected abstract bool ShouldJump();
     protected abstract float GetDesiredHorizontalMovement();
 
-    void Update()
+    public virtual void Update()
     {
         // The mob is grounded if a linecast to the groundcheck position hits
         // anything on the ground layer.
@@ -56,10 +56,11 @@ public abstract class Mob : MonoBehaviour
 
     bool IsGrounded()
     {
-        return Physics2D.Linecast(transform.position, groundCheck.position, 1 << LayerMask.NameToLayer("Ground"));
+        // If no groundCheck, then we're always grounded.
+        return groundCheck == null || Physics2D.Linecast(transform.position, groundCheck.position, 1 << LayerMask.NameToLayer("Ground"));
     }
 
-    void FixedUpdate()
+    public virtual void FixedUpdate()
     {
         // Cache the desired motion since we'll use it a lot.
         float h = GetDesiredHorizontalMovement();

@@ -240,7 +240,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef474d77e998d4890bff85103fb4c947, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 6
+  facingRight: 1
+  jump: 0
+  moveForce: 365
+  maxSpeed: 2
+  jumpClips: []
+  jumpForce: 0
+  taunts: []
+  tauntProbability: 50
+  tauntDelay: 1
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1

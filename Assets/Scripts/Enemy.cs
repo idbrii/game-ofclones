@@ -1,22 +1,26 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Enemy : MonoBehaviour
+public class Enemy : Mob
 {
-    [Tooltip("The speed the enemy moves at.")]
-    public float moveSpeed = 2f;
-
     private Transform attack;			// Reference to the position of the gameobject used for attacks.
+    private bool shouldFlip = false;
 
 
-    void Awake()
+    public override void Awake()
     {
+        base.Awake();
+
         // Setting up the references.
         attack = transform.Find("attackVolume").transform;
     }
 
-    void FixedUpdate()
+    public override void FixedUpdate()
     {
+        // Do our update before parent.
+
+        shouldFlip = false;
+
         // Create an array of the enemy's attack colliders.
         Collider2D[] attackHits = Physics2D.OverlapPointAll(attack.position, 1);
 
@@ -27,20 +31,29 @@ public class Enemy : MonoBehaviour
             if(c.CompareTag("Obstacle"))
             {
                 // ... Flip the enemy and stop checking the other colliders.
-                Flip();
+                shouldFlip = true;
                 break;
             }
         }
 
-        // Set the enemy's velocity to moveSpeed in the x direction.
-        rigidbody2D.velocity = new Vector2(transform.localScale.x * moveSpeed, rigidbody2D.velocity.y);
+        base.FixedUpdate();
     }
 
-    public void Flip()
+    protected override bool ShouldJump()
     {
-        // Multiply the x component of localScale by -1.
-        Vector3 enemyScale = transform.localScale;
-        enemyScale.x *= -1;
-        transform.localScale = enemyScale;
+        // enemies never jump
+        return false;
+    }
+
+    protected override float GetDesiredHorizontalMovement()
+    {
+        // move forward ...
+        float direction = transform.localScale.x;
+        if (shouldFlip)
+        {
+            // ... unless we hit something
+            direction *= -1f;
+        }
+        return direction;
     }
 }
